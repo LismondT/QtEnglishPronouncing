@@ -7,6 +7,7 @@
 #include <qmediaplayer.h>
 #include <qmediaplaylist.h>
 #include <qfile.h>
+#include <QKeyEvent>
 
 #include "FileDownloader.h"
 #include "InfoLogger.h"
@@ -35,6 +36,7 @@ public slots:
     //Net
     void getAudioPushButton(); //Download *.mp3 file
     void AudioLoaded();
+    void NetErrorHandler();
 
     //WordsList
     void WordsListDeleteAll();
@@ -51,4 +53,5 @@ private:
 
     
     const QString AUDIO_PATH = "./audios/";
+    bool _left_smile;
 };

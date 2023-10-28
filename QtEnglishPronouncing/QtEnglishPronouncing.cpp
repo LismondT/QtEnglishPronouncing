@@ -22,18 +22,21 @@ QtEnglishPronouncing::QtEnglishPronouncing(QWidget *parent)
     _downloader = new FileDownloader(AUDIO_PATH);
     connect(_downloader, &FileDownloader::onReady, this, &QtEnglishPronouncing::AudioLoaded);
     connect(this, &QtEnglishPronouncing::setFileName, _downloader, &FileDownloader::setFileName);
-    
+    connect(_downloader, &FileDownloader::NetError, this, &QtEnglishPronouncing::NetErrorHandler);
+
     //Buttons
     connect(ui.pronounceButton, &QPushButton::clicked, this, &QtEnglishPronouncing::playAudioPushButton);
     connect(ui.getAudioButton, &QPushButton::clicked, this, &QtEnglishPronouncing::getAudioPushButton);
     connect(ui.deleteAllButton, &QPushButton::clicked, this, &QtEnglishPronouncing::WordsListDeleteAll);
     connect(ui.deleteOneButton, &QPushButton::clicked, this, &QtEnglishPronouncing::WordsListDeleteOne);
 
+    //UtilsF
     ui.wordsList->setSortingEnabled(false);
     this->WordsListUpdate();
     this->FolderDepend();
 
     _logger->sendMessage(QString::fromUtf8(u8"Зашел в приложение"));
+    _left_smile = true;
 }
 
 QtEnglishPronouncing::~QtEnglishPronouncing()
@@ -113,6 +116,7 @@ void QtEnglishPronouncing::getAudioPushButton()
 {
     QString word = ui.wordEdit->text();
     this->FolderDepend();
+    ui.wordEdit->setText("");
     emit setFileName(word);
 
     _logger->sendMessage(QString::fromUtf8(u8"Получил слово {") + word + "}");
@@ -122,8 +126,23 @@ void QtEnglishPronouncing::getAudioPushButton()
 void QtEnglishPronouncing::AudioLoaded()
 {
     this->WordsListUpdate();
+    ui.info->setText((""));
 
     qDebug() << "Audio was loaded";
+}
+
+void QtEnglishPronouncing::NetErrorHandler()
+{
+    if (_left_smile) {
+        ui.info->setText(QString::fromUtf8(u8"Слово не найдено (:"));
+        _left_smile = false;
+    }
+    else {
+        ui.info->setText(QString::fromUtf8(u8"Слово не найдено :)"));
+        _left_smile = true;
+    }
+
+    _logger->sendMessage(QString::fromUtf8(u8"Получил ошибку"));
 }
 
 void QtEnglishPronouncing::playAudioPushButton()

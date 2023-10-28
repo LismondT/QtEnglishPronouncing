@@ -16,7 +16,6 @@ public:
 
 signals:
 	void onReady(const QString& url);
-	void UrlIsNotExist();
 
 public slots:
 	void getData(const QString& word);

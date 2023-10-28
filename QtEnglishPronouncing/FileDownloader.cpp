@@ -32,12 +32,13 @@ void FileDownloader::saveData(const QString& url)
 }
 
 void FileDownloader::onResult(QNetworkReply* reply)
-{
+{	
 	if (reply->error()) {
 		qDebug() << "ERROR";
 		qDebug() << reply->errorString();
 		qDebug() << "Reply";
 		qDebug() << reply->readAll();
+		emit NetError();
 		return;
 	}
 

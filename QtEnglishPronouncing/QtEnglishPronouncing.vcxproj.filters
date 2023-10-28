@@ -30,6 +30,9 @@
     <Filter Include="Utils\WordUrlParser">
       <UniqueIdentifier>{af20671e-5dbb-4e89-86c8-44fa91998678}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\InfoLogger">
+      <UniqueIdentifier>{2bdf1b37-5758-40aa-bf81-40437a9b3298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="QtEnglishPronouncing.qrc">
@@ -56,7 +59,7 @@
       <Filter>Utils\WordUrlParser</Filter>
     </ClCompile>
     <ClCompile Include="InfoLogger.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Utils\InfoLogger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +70,7 @@
       <Filter>Utils\WordUrlParser</Filter>
     </QtMoc>
     <QtMoc Include="InfoLogger.h">
-      <Filter>Header Files</Filter>
+      <Filter>Utils\InfoLogger</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

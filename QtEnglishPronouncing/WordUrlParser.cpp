@@ -26,6 +26,10 @@ QString WordUrlParser::getWordUrl(const QString& html)
 
 	outUrl += html.mid(sposAudio2, eposAudio2 - sposAudio2);
 
+	if (outUrl == _URL_OUT_PATH) {
+		return NULL;
+	}
+
 	qDebug() << "OUT_URL: " << outUrl;
 	return outUrl;
 }
@@ -43,7 +47,7 @@ void WordUrlParser::getData(const QString& word)
 void WordUrlParser::onResult(QNetworkReply* reply)
 {
 	if (reply->error()) {
-		//ToDO
+		//ToDO 
 		return;
 	}
 

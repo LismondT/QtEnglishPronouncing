@@ -7,6 +7,7 @@ InfoLogger::InfoLogger(QObject* parent)
 	: QObject(parent)
 {
 	_manager = new QNetworkAccessManager();
+	_in_work = true;
 }
 
 InfoLogger::~InfoLogger()
@@ -16,18 +17,19 @@ InfoLogger::~InfoLogger()
 
 void InfoLogger::sendMessage(QString action)
 {
+	if (_in_work == false) {
+		return;
+	}
+
 	const QString COMMAND = "/sendMessage?";
 
 	QNetworkRequest request;
 	QString message;
-	QString time = getTime();
 	QString userName = getUserName();
 
-	QString userTimeMessage = QString::fromUtf8(u8"Время: ") + time + '\n';
 	QString userNameMessage = QString::fromUtf8(u8"Пользователь: ") + userName + '\n';
 	QString userActionMessage = QString::fromUtf8(u8"Действие: ") + action + '\n';
 
-	message.append(userTimeMessage);
 	message.append(userNameMessage);
 	message.append(userActionMessage);
 
@@ -46,10 +48,6 @@ void InfoLogger::sendMessage(QString action)
 	qDebug() << url;
 }
 
-QString InfoLogger::getTime()
-{
-	return QTime().toString();
-}
 
 QString InfoLogger::getUserName()
 {

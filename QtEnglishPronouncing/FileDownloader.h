@@ -17,6 +17,7 @@ public:
 
 signals:
 	void onReady();
+	void NetError();
 	void setConvertUrl(const QString& word);
 
 public slots:
