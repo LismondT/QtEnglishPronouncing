@@ -55,6 +55,9 @@
     <ClCompile Include="WordUrlParser.cpp">
       <Filter>Utils\WordUrlParser</Filter>
     </ClCompile>
+    <ClCompile Include="InfoLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="FileDownloader.h">
@@ -62,6 +65,9 @@
     </QtMoc>
     <QtMoc Include="WordUrlParser.h">
       <Filter>Utils\WordUrlParser</Filter>
+    </QtMoc>
+    <QtMoc Include="InfoLogger.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

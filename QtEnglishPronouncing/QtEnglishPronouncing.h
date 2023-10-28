@@ -9,6 +9,7 @@
 #include <qfile.h>
 
 #include "FileDownloader.h"
+#include "InfoLogger.h"
 
 class QtEnglishPronouncing : public QMainWindow
 {
@@ -22,7 +23,6 @@ public:
     bool WordsListIsChoosed();
     
     void FolderDepend();
-    void Heh();
 
 signals:
     //set name that was saved (FileDownloader::getData)
@@ -47,6 +47,8 @@ private:
     QMediaPlaylist* _mediaPlaylist;
 
     FileDownloader* _downloader;
+    InfoLogger* _logger;
+
     
     const QString AUDIO_PATH = "./audios/";
 };

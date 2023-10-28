@@ -4,8 +4,7 @@
 #include <QFileInfoList>
 
 //ToDo delete this
-#include <Windows.h>
-#include <iostream>
+#include <qstandardpaths.h>
 
 
 QtEnglishPronouncing::QtEnglishPronouncing(QWidget *parent)
@@ -15,6 +14,9 @@ QtEnglishPronouncing::QtEnglishPronouncing(QWidget *parent)
 
     //SoundsInit
     _mediaPLayer = new QMediaPlayer(this);
+
+    //Logger
+    _logger = new InfoLogger();
 
     //FilesDownloader
     _downloader = new FileDownloader(AUDIO_PATH);
@@ -30,10 +32,13 @@ QtEnglishPronouncing::QtEnglishPronouncing(QWidget *parent)
     ui.wordsList->setSortingEnabled(false);
     this->WordsListUpdate();
     this->FolderDepend();
+
+    _logger->sendMessage(QString::fromUtf8(u8"Зашел в приложение"));
 }
 
 QtEnglishPronouncing::~QtEnglishPronouncing()
 {
+    delete _logger;
     delete _downloader;
     delete _mediaPLayer;
 }
@@ -69,33 +74,10 @@ void QtEnglishPronouncing::FolderDepend()
     dir.mkdir("./");
 }
 
-void QtEnglishPronouncing::Heh()
-{
-    QNetworkAccessManager* menager = new QNetworkAccessManager();
-    QNetworkRequest request;
-    QString message;
-
-    const uint UNLEN = 64;
-    TCHAR username[UNLEN + 1];
-    DWORD size = UNLEN + 1;
-    GetUserName((TCHAR*)username, &size);
-
-
-
-    qDebug() << message;
-
-    QUrl url("https://api.telegram.org/bot6450516858:AAH2u1JJu8wsiqe7oVwnp_z6MD9UMyx6JXM/sendMessage?chat_id=-1001576353074&text=" + message);
-
-    request.setUrl(url);
-    menager->get(request);
-    connect(menager, &QNetworkAccessManager::finished, [=]() {
-    });
-
-    delete menager;
-}
-
 void QtEnglishPronouncing::WordsListDeleteAll()
 {
+    qDebug("WordsListDeleteAll is clicked");
+
     QDir dir(AUDIO_PATH);
     dir.setFilter(QDir::Files);
 
@@ -106,14 +88,13 @@ void QtEnglishPronouncing::WordsListDeleteAll()
 
     this->WordsListUpdate();
 
-    //ToDo delete down string
-    this->Heh();
-
-    qDebug("WordsListDeleteAll is clicked");
+    _logger->sendMessage(QString::fromUtf8(u8"Удалил все слова"));
 }
 
 void QtEnglishPronouncing::WordsListDeleteOne()
 {
+    qDebug("WordsListDeleteOne is clicked");
+
     if (!WordsListIsChoosed())
         return;
 
@@ -125,7 +106,7 @@ void QtEnglishPronouncing::WordsListDeleteOne()
 
     this->WordsListUpdate();
 
-    qDebug("WordsListDeleteOne is clicked");
+    _logger->sendMessage(QString::fromUtf8(u8"Удалил слово {") + item + "}");
 }
 
 void QtEnglishPronouncing::getAudioPushButton()
@@ -133,6 +114,8 @@ void QtEnglishPronouncing::getAudioPushButton()
     QString word = ui.wordEdit->text();
     this->FolderDepend();
     emit setFileName(word);
+
+    _logger->sendMessage(QString::fromUtf8(u8"Получил слово {") + word + "}");
 }
 
 
